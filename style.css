@@ -1,0 +1,8 @@
+canvas {
+    border: 2px black solid;
+    margin: auto;
+    display: flex;
+    width: 512px;
+    height: 512px;
+    image-rendering: pixelated;
+}
