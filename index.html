@@ -6,6 +6,35 @@
     <title>Proteins</title>
 </head>
 <body>
-    <canvas height="512" width="512"></canvas>
+    <div id="maincontainer">
+        <div id="box">
+            
+            <div id="title" class="info"></div>
+            <div id="date" class="info"></div>
+            <div id="author" class="info"></div>
+            <div id="classification" class="info"></div>
+            <div id="pdb" class="info"></div>
+            <form id="linkForm" method="GET">
+                <input type="text" id="linkInput" placeholder="Enter PDB ID or link to .pdb file">
+                <input type="submit" value="Select From Link" id="linkButton">
+            </form>
+            <form id="fileForm" method="GET">
+                <input name="file" type="file" id="fileInput">
+            </form>
+            <a href="https://rcsb.org/search/advanced" target="_blank" rel="noopener noreferrer" >Looking for .pdb files?</a>
+        </div>
+        <div id="canvascontainer">
+            <canvas height="512" width="512"></canvas>
+            <div id="model">
+                <button id="prev">
+                    <
+                </button>
+                <div id="modelText"></div>
+                <button id="next">
+                    >
+                </button>
+            </div>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>

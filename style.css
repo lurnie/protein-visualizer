@@ -1,8 +1,72 @@
 canvas {
     border: 2px black solid;
-    margin: auto;
-    display: flex;
-    width: 512px;
-    height: 512px;
     image-rendering: pixelated;
+    
+}
+#maincontainer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+#model {
+    text-align: center;
+    border: 2px black solid;
+    width: 120px;
+    margin-inline: auto;
+    margin-top: 10px;
+    padding: 10px 0px 10px 0px;
+}
+
+#modelText {
+    display: inline;
+}
+
+#canvascontainer {
+    margin-right: auto;
+
+    margin-top: 10px;
+}
+
+#box {
+    margin: 10px 0px 0px 10px;
+    width: 27.5vw;
+    height: fit-content;
+    border: solid 2px black;
+    padding: 10px;
+}
+
+#linkForm {
+    padding: 10px 0 10px 0;
+}
+
+@media (max-width: 800px) {
+    #maincontainer {
+        display: block;
+    }
+    #box {
+        width: auto;
+        margin-right: 10px;
+    }
+    #canvascontainer {
+        margin-top: 10px;
+        
+    }
+    canvas {
+        margin-inline: auto;
+        display: block;
+    }
+}
+
+#linkInput {
+    padding: 5px;
+}
+
+#fileInput {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.info {
+    margin-top: 10px;
+    font-family: sans-serif;
 }
