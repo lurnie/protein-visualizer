@@ -4,11 +4,9 @@ This is a simple program for visualizing the coordinates and types of atoms with
 ## Use
 For any serious use cases, please use one of the many .pdb viewers out there. However, to play around with this one, go to https://lurnie.github.io/protein-visualizer/.
 
-Use WASD to move, Arrow Keys to control the camera, Space to go up, and Left Shift to go down.
+Use WASD to move, Arrow Keys to control the camera, Space to go up, and Left Shift to go down. For biomolecules containing multiple models, use the buttons on the bottom to change between them.
 
 Either upload a file, provide a link to a .pdb file, or input a PDB ID from the [RCSB website](https://www.rcsb.org/) to change the biomolecule.
-
-For biomolecules containing multiple models, use the buttons on the bottom to change between them.
 
 ## Bugs
 Please let me know if you find any bugs or security issues.
