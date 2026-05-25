@@ -1,7 +1,7 @@
 # Protein Visualizer
 This is a simple program for visualizing the coordinates and types of atoms within biomolecules using legacy [.pdb (Protein Data Bank) files](https://pdb101.rcsb.org/learn/guide-to-understanding-pdb-data/pdb-overview). This was created for fun and it is currently a work in progress.
 
-<img src="/screenshot.png" width="500">
+<img src="/screenshot.png" width="700">
 
 ## Use
 For any serious use cases, please use one of the many .pdb viewers out there. However, to play around with this one, go to https://lurnie.github.io/protein-visualizer/.
