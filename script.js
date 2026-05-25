@@ -128,21 +128,6 @@ function controls(keys, cam) {
 }
 
 function setup() {
-    // https://files.rcsb.org/view/2HHB.pdb
-    // https://files.rcsb.org/view/1MBN.pdb
-    // https://files.rcsb.org/view/6VG7.pdb multiple models
-    // https://files.rcsb.org/view/1K6F.pdb
-    // https://files.rcsb.org/view/1GFL.pdb
-    // https://files.rcsb.org/view/4Y2N.pdb other renderers only show 1 assembly, but this shows 2?
-    // https://files.rcsb.org/view/1BPZ.pdb
-    // https://files.rcsb.org/view/4TNA.pdb
-    // https://files.rcsb.org/view/7U1T.pdb
-    // 1C17
-    // 3J7T
-    // 3IZ2
-    // 4RIL
-    // 3B5U // this looks like the wrong length to me...
-    // https://data.pdbj.org/pub/pdb/data/structures/obsolete/pdb/hh/pdb1hhb.ent // make names show correctly
     fetch('https://files.rcsb.org/view/1C17.pdb').then(res => {res.text().then(res => init(res));});
 }
 
@@ -152,20 +137,20 @@ function init(pdb) {
     let pdbID = '';
     let date = '';
     let authors = '';
-    
+
     // get structure info
     let lines = pdb.split("\n");
 
-    
+
     let bioAssemb = [];
     // contains list of BioMols
     // each BioMol contains .chains and .transf, a list of transformations
     // each transformation is a BioMT object, which has .matrix
 
-    
+
     let models = [];
-    
-    
+
+
     let model = 0
     for (let line of lines) {
         if (line.slice(0, 4) == 'ATOM' || line.slice(0, 6) == 'HETATM') {
@@ -173,7 +158,7 @@ function init(pdb) {
                 let newModel = new Model([]);
                 models.push(newModel);
             }
-            
+
             let linesplit = line.trim().split(/\s+/);
             let coords = linesplit.slice(6, 9);
             let type = line.slice(76, 78).trim();
@@ -182,7 +167,7 @@ function init(pdb) {
             if (!Object.hasOwn(models[model].chains, chain)) {
                 models[model].chains[chain] = [];
             }
-            models[model].chains[chain].push(atom);            
+            models[model].chains[chain].push(atom);
         } else if (line.slice(0, 5) == 'TITLE') {
             let text = line.slice(10, 80);
             title += text;
@@ -209,11 +194,11 @@ function init(pdb) {
                     }
                     // new transformation being created
                     bioAssemb[bioAssemb.length-1].transf.push(new BioMT());
-                    
+
                     bioAssemb[bioAssemb.length-1].chains = newChains;
-                    
+
                 } else if (line.slice(11, 41) == '                   AND CHAINS:') { // I think that works....
-                    let newChains = []; 
+                    let newChains = [];
                     for (let i = 42; i < 80; i++) {
                         let current = line.slice(i, i+1);
                         if (current != ' ' && current != ',') {newChains.push(current);}
@@ -221,22 +206,21 @@ function init(pdb) {
                     // repeated code
 
                     bioAssemb[bioAssemb.length-1].chains.push(...newChains);
-                    // extend list, rather than creating it
                 } else if (line.slice(13, 18) == 'BIOMT') {
                     // 1 individual part of the transformation being created
-                    
+
                     let transformation = line.slice(18, 19);
                     // the type of individual transformation on this line (x, y, z) presented as 1, 2, 3
-                    
+
                     let num = line.slice(19, 23);
                     // the number of this transformation in the biomolecule
 
                     // I think this should allow transformations out of order, test this
-                    while (bioAssemb[bioAssemb.length-1].transf.length < num) { 
+                    while (bioAssemb[bioAssemb.length-1].transf.length < num) {
                         bioAssemb[bioAssemb.length-1].transf.push(new BioMT());
                     }
                     // check if this is even needed though
-                    
+
                     let el1 = parseFloat(line.slice(24, 34).trim());
                     let el2 = parseFloat(line.slice(34, 44).trim());
                     let el3 = parseFloat(line.slice(44, 54).trim());
@@ -247,13 +231,6 @@ function init(pdb) {
         }
     }
 
-    // this doesn't work yet, need to add a way to add all chains
-    if (bioAssemb.length == 0) {
-        let newBio = new BioMT();
-        let newMol = new BioMol();
-        newMol.transf.push(newBio)
-        bioAssemb.push(newMol); // test this
-    }
 
     let titleEl = document.querySelector('#title');
     let classificationEl = document.querySelector('#classification');
@@ -268,7 +245,7 @@ function init(pdb) {
     let formattedDate = date.slice(3, 6) + " " + date.slice(0, 2) + ", " + (year > 71 ? "19" + year : "20" + year);
     dateEl.textContent = formattedDate;
     authorEl.textContent = authors.split('.').join('. ').split(',').join(', ');
-    
+
     let canvas = {};
     canvas.canvas = document.querySelector("canvas");
     canvas.ctx = canvas.canvas.getContext('2d');
@@ -326,9 +303,9 @@ function init(pdb) {
         if (currentMdl < 0) {
             currentMdl = models.length - 1;
         }
-        modelEl.textContent = (currentMdl + 1) + "/" + models.length; 
+        modelEl.textContent = (currentMdl + 1) + "/" + models.length;
     }
-    
+
     document.querySelector("#prev").addEventListener("click", () => {
         currentMdl--;
         updateModel();
@@ -346,7 +323,7 @@ function init(pdb) {
     document.querySelector('#fileInput').addEventListener('change', (evt) => {
         changeModel = true;
         upload = true;
-    });    
+    });
 
     requestAnimationFrame(tick);
     function tick() {
@@ -366,11 +343,11 @@ function init(pdb) {
         }
 
         let atomRenderedCount = 0;
-        
+
         for (let biom of bioAssemb) {
             for (let chain of biom.chains) {
                 for (let atom of models[currentMdl].chains[chain]) {
-                    
+
                     let rgb = new RGB(247, 192, 196);
                     if (Object.hasOwn(colors, atom.type)) {
                         rgb = colors[atom.type];
@@ -388,10 +365,10 @@ function init(pdb) {
                 }
             }
         }
-        
+
         i++;
         controls(pressedKeys, cam);
-        
+
         if (changeModel) {
             if (upload) {
                 const file = document.querySelector('#fileInput').files[0];
@@ -402,7 +379,7 @@ function init(pdb) {
                     let text = evt.target.result;
                     init(text);
                 }
-                
+
             } else {
                 let newPdb = document.querySelector("#linkInput").value;
                 if (newPdb.length == 4) {newPdb = `https://files.rcsb.org/view/${newPdb}.pdb`}
@@ -417,6 +394,6 @@ function init(pdb) {
             }
         } else {
             requestAnimationFrame(tick);
-        }   
+        }
     }
 }
